@@ -1,3 +1,7 @@
+## 0.30.1
+
+- Fix `clearCache()` function
+
 ## 0.30.0
 
 - Sync fork with the upstream `mume` library

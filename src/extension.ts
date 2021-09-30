@@ -1,7 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import { emptyDir } from "fs-extra";
-import * as os from "os";
 import * as path from "path";
 import * as vscode from "vscode";
 
@@ -22,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
   const contentProvider = new MarkdownPreviewEnhancedView(context);
 
   function clearCache() {
-    emptyDir(path.resolve(os.homedir(), ".mume/literate-elm"));
+    emptyDir(utility.getConfigPath());
   }
 
   function openPreviewToTheSide(uri?: vscode.Uri) {
