@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
   const contentProvider = new MarkdownPreviewEnhancedView(context);
 
   function clearCache() {
-    emptyDir(utility.getConfigPath());
+    emptyDir(path.resolve(utility.getConfigPath(), "literate-elm"));
   }
 
   function openPreviewToTheSide(uri?: vscode.Uri) {
