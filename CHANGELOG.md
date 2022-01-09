@@ -1,3 +1,7 @@
+## 0.30.2
+
+- Upgrade vega-embed to 6.20.5 and vega-lite to 5.2.0
+
 ## 0.30.1
 
 - Fix `clearCache()` function
