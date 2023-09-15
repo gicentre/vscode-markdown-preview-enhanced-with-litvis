@@ -6,6 +6,7 @@
 
 
 ## same as in .gitignore
+.DS_Store
 .vscode-test
 *.vsix
 node_modules
