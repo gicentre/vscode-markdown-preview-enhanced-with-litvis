@@ -1,3 +1,9 @@
+# 0.31.0
+
+- Sync with upstream ([#35](https://github.com/gicentre/mume-with-litvis/pull/35), [mume-with-litvis#32](https://github.com/gicentre/mume-with-litvis/pull/32))
+- Update vega dependencies
+- Update several `devDependencies`
+
 ## 0.30.2
 
 - Upgrade vega-embed to 6.20.5 and vega-lite to 5.2.0
