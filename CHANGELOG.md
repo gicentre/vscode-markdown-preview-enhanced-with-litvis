@@ -1,6 +1,6 @@
 # 0.31.0
 
-- Sync with upstream ([#35](https://github.com/gicentre/mume-with-litvis/pull/35), [mume-with-litvis#32](https://github.com/gicentre/mume-with-litvis/pull/32))
+- Sync with upstream ([#35](https://github.com/gicentre/vscode-markdown-preview-enhanced-with-litvis/pull/35), [mume-with-litvis#32](https://github.com/gicentre/mume-with-litvis/pull/32))
 - Update vega dependencies
 - Update several `devDependencies`
 
