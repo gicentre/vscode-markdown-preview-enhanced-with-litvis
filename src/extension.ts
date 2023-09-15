@@ -1,6 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import { emptyDir } from "fs-extra";
+import * as fs from "fs-extra";
 import * as path from "path";
 import * as vscode from "vscode";
 
@@ -14,6 +14,18 @@ import {
 
 let editorScrollDelay = Date.now();
 
+// hide default vscode markdown preview buttons if necessary
+const hideDefaultVSCodeMarkdownPreviewButtons = vscode.workspace
+  .getConfiguration("markdown-preview-enhanced-with-litvis")
+  .get<boolean>("hideDefaultVSCodeMarkdownPreviewButtons");
+if (hideDefaultVSCodeMarkdownPreviewButtons) {
+  vscode.commands.executeCommand(
+    "setContext",
+    "hasCustomMarkdownPreview",
+    true,
+  );
+}
+
 // this method is called when your extension iopenTextDocuments activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -21,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
   const contentProvider = new MarkdownPreviewEnhancedView(context);
 
   function clearCache() {
-    emptyDir(path.resolve(utility.getConfigPath(), "literate-elm"));
+    fs.emptyDir(path.resolve(utility.getConfigPath(), "literate-elm"));
   }
 
   function openPreviewToTheSide(uri?: vscode.Uri) {
@@ -369,6 +381,10 @@ export function activate(context: vscode.ExtensionContext) {
       .replace(/^vscode\-webview\-resource:\/\/(.+?)\//, "")
       .replace(/^file\/\/\//, "file:///")
       .replace(
+        /^https:\/\/file\+\.vscode-resource.vscode-cdn.net\//,
+        "file:///",
+      )
+      .replace(
         /^https?:\/\/(.+?)\.vscode-webview-test.com\/vscode-resource\/file\/+/,
         "file:///",
       )
@@ -382,14 +398,60 @@ export function activate(context: vscode.ExtensionContext) {
     } else if (href.match(/^file:\/\/\//)) {
       // openFilePath = href.slice(8) # remove protocol
       let openFilePath = utility.addFileProtocol(
-        href.replace(/(\s*)[\#\?](.+)$/, ""),
-      ); // remove #anchor and ?params...
-      openFilePath = decodeURI(openFilePath);
-      vscode.commands.executeCommand(
-        "vscode.open",
-        vscode.Uri.parse(openFilePath),
-        vscode.ViewColumn.One,
+        href, // .replace(/(\s*)[\#\?](.+)$/, ""),
       );
+      openFilePath = decodeURI(openFilePath);
+      const fileUri = vscode.Uri.parse(openFilePath);
+
+      // determine from link fragment to which line to jump
+      let line = -1;
+      const found = fileUri.fragment.match(/^L(\d+)/);
+      if (found) {
+        line = parseInt(found[1], 10);
+        if (line > 0) {
+          line = line - 1;
+        }
+      }
+
+      // find if there is already opened such file
+      // and remember in which view column it is
+      let col = vscode.ViewColumn.One;
+      tgrLoop: for (const tabGroup of vscode.window.tabGroups.all) {
+        for (const tab of tabGroup.tabs) {
+          if (tab.input instanceof vscode.TabInputText) {
+            if (tab.input.uri.path === fileUri.path) {
+              col = tabGroup.viewColumn;
+              break tgrLoop;
+            }
+          }
+        }
+      }
+
+      // open file if needed, if not we will use already opened editor
+      // (by specifying view column in which it is already shown)
+
+      if (fs.existsSync(fileUri.fsPath)) {
+        vscode.workspace.openTextDocument(fileUri.path).then((doc) => {
+          vscode.window.showTextDocument(doc, col).then((editor) => {
+            // if there was line fragment, jump to line
+            if (line >= 0) {
+              let viewPos = vscode.TextEditorRevealType.InCenter;
+              if (editor.selection.active.line === line) {
+                viewPos = vscode.TextEditorRevealType.InCenterIfOutsideViewport;
+              }
+              const sel = new vscode.Selection(line, 0, line, 0);
+              editor.selection = sel;
+              editor.revealRange(sel, viewPos);
+            }
+          });
+        });
+      } else {
+        vscode.commands.executeCommand(
+          "vscode.open",
+          fileUri,
+          vscode.ViewColumn.One,
+        );
+      }
     } else {
       utility.openFile(href);
     }
@@ -510,10 +572,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.onDidChangeActiveTextEditor((textEditor) => {
       if (textEditor && textEditor.document && textEditor.document.uri) {
         if (isMarkdownFile(textEditor.document)) {
-          const sourceUri = textEditor.document.uri;
           const config = vscode.workspace.getConfiguration(
             "markdown-preview-enhanced-with-litvis",
           );
+          const sourceUri = textEditor.document.uri;
           const automaticallyShowPreviewOfMarkdownBeingEdited = config.get<
             boolean
           >("automaticallyShowPreviewOfMarkdownBeingEdited");

@@ -1,6 +1,13 @@
 import { MarkdownEngineConfig } from "mume-with-litvis";
-import { MathRenderingOption } from "mume-with-litvis/out/src/markdown-engine-config";
+import {
+  CodeBlockTheme,
+  MathRenderingOption,
+  MermaidTheme,
+  PreviewTheme,
+  RevealJsTheme,
+} from "mume-with-litvis/out/src/markdown-engine-config";
 import * as vscode from "vscode";
+import { PathResolver } from "./utils/path-resolver";
 
 export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
   public static getCurrentConfig() {
@@ -23,10 +30,10 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
   public readonly mathInlineDelimiters: string[][];
   public readonly mathBlockDelimiters: string[][];
   public readonly mathRenderingOnlineService: string;
-  public readonly codeBlockTheme: string;
-  public readonly mermaidTheme: string;
-  public readonly previewTheme: string;
-  public readonly revealjsTheme: string;
+  public readonly codeBlockTheme: CodeBlockTheme;
+  public readonly mermaidTheme: MermaidTheme;
+  public readonly previewTheme: PreviewTheme;
+  public readonly revealjsTheme: RevealJsTheme;
   public readonly protocolsWhiteList: string;
   public readonly imageFolderPath: string;
   public readonly imageUploader: string;
@@ -48,6 +55,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
   public readonly usePuppeteerCore: boolean;
   public readonly puppeteerArgs: string[];
   public readonly plantumlServer: string;
+  public readonly hideDefaultVSCodeMarkdownPreviewButtons: boolean;
 
   // preview config
   public readonly scrollSync: boolean;
@@ -61,6 +69,8 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
     );
 
     this.configPath = (config.get<string>("configPath") || "").trim();
+    this.configPath = PathResolver.resolvePath(this.configPath);
+
     this.usePandocParser = config.get<boolean>("usePandocParser");
     this.breakOnSingleNewLine = config.get<boolean>("breakOnSingleNewLine");
     this.enableTypographer = config.get<boolean>("enableTypographer");
@@ -80,7 +90,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
     this.frontMatterRenderingOption = config.get<string>(
       "frontMatterRenderingOption",
     );
-    this.mermaidTheme = config.get<string>("mermaidTheme");
+    this.mermaidTheme = config.get<MermaidTheme>("mermaidTheme");
     this.mathRenderingOption = config.get<string>(
       "mathRenderingOption",
     ) as MathRenderingOption;
@@ -89,9 +99,9 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
     this.mathRenderingOnlineService = config.get<string>(
       "mathRenderingOnlineService",
     );
-    this.codeBlockTheme = config.get<string>("codeBlockTheme");
-    this.previewTheme = config.get<string>("previewTheme");
-    this.revealjsTheme = config.get<string>("revealjsTheme");
+    this.codeBlockTheme = config.get<CodeBlockTheme>("codeBlockTheme");
+    this.previewTheme = config.get<PreviewTheme>("previewTheme");
+    this.revealjsTheme = config.get<RevealJsTheme>("revealjsTheme");
     this.protocolsWhiteList = config.get<string>("protocolsWhiteList");
     this.imageFolderPath = config.get<string>("imageFolderPath");
     this.imageUploader = config.get<string>("imageUploader");
@@ -133,6 +143,9 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
     this.usePuppeteerCore = config.get<boolean>("usePuppeteerCore");
     this.puppeteerArgs = config.get<string[]>("puppeteerArgs");
     this.plantumlServer = config.get<string>("plantumlServer");
+    this.hideDefaultVSCodeMarkdownPreviewButtons = config.get<boolean>(
+      "hideDefaultVSCodeMarkdownPreviewButtons",
+    );
   }
 
   public isEqualTo(otherConfig: MarkdownPreviewEnhancedConfig) {
