@@ -481,7 +481,7 @@
           "default": "",
           "type": "string"
         },
-        "markdown-preview-enhanced.hideDefaultVSCodeMarkdownPreviewButtons": {
+        "markdown-preview-enhanced-with-litvis.hideDefaultVSCodeMarkdownPreviewButtons": {
           "description": "Hide the default VSCode markdown preview extension buttons. Restarting the editor is required to make this config take effect.",
           "default": true,
           "type": "boolean"

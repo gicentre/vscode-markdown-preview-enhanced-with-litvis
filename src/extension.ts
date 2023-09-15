@@ -16,7 +16,7 @@ let editorScrollDelay = Date.now();
 
 // hide default vscode markdown preview buttons if necessary
 const hideDefaultVSCodeMarkdownPreviewButtons = vscode.workspace
-  .getConfiguration("markdown-preview-enhanced")
+  .getConfiguration("markdown-preview-enhanced-with-litvis")
   .get<boolean>("hideDefaultVSCodeMarkdownPreviewButtons");
 if (hideDefaultVSCodeMarkdownPreviewButtons) {
   vscode.commands.executeCommand(
