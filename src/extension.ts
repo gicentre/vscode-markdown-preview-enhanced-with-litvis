@@ -1,9 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import { getExtensionConfigPath, utility } from "@shd101wyy/mume";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import * as path from "path";
 import * as vscode from "vscode";
+
+import { getExtensionConfigPath, utility } from "mume-with-litvis";
 import { pasteImageFile, uploadImageFile } from "./image-helper";
 import {
   getPreviewUri,
@@ -15,7 +16,7 @@ let editorScrollDelay = Date.now();
 
 // hide default vscode markdown preview buttons if necessary
 const hideDefaultVSCodeMarkdownPreviewButtons = vscode.workspace
-  .getConfiguration("markdown-preview-enhanced")
+  .getConfiguration("markdown-preview-enhanced-with-litvis")
   .get<boolean>("hideDefaultVSCodeMarkdownPreviewButtons");
 if (hideDefaultVSCodeMarkdownPreviewButtons) {
   vscode.commands.executeCommand(
@@ -30,6 +31,10 @@ if (hideDefaultVSCodeMarkdownPreviewButtons) {
 export function activate(context: vscode.ExtensionContext) {
   // assume only one preview supported.
   const contentProvider = new MarkdownPreviewEnhancedView(context);
+
+  function clearCache() {
+    fs.emptyDir(path.resolve(utility.getConfigPath(), "literate-elm"));
+  }
 
   function openPreviewToTheSide(uri?: vscode.Uri) {
     let resource = uri;
@@ -61,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   function toggleScrollSync() {
     const config = vscode.workspace.getConfiguration(
-      "markdown-preview-enhanced",
+      "markdown-preview-enhanced-with-litvis",
     );
     const scrollSync = !config.get<boolean>("scrollSync");
     config.update("scrollSync", scrollSync, true).then(() => {
@@ -76,7 +81,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   function toggleLiveUpdate() {
     const config = vscode.workspace.getConfiguration(
-      "markdown-preview-enhanced",
+      "markdown-preview-enhanced-with-litvis",
     );
     const liveUpdate = !config.get<boolean>("liveUpdate");
     config.update("liveUpdate", liveUpdate, true).then(() => {
@@ -91,7 +96,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   function toggleBreakOnSingleNewLine() {
     const config = vscode.workspace.getConfiguration(
-      "markdown-preview-enhanced",
+      "markdown-preview-enhanced-with-litvis",
     );
     const breakOnSingleNewLine = !config.get<boolean>("breakOnSingleNewLine");
     config
@@ -568,7 +573,7 @@ export function activate(context: vscode.ExtensionContext) {
       if (textEditor && textEditor.document && textEditor.document.uri) {
         if (isMarkdownFile(textEditor.document)) {
           const config = vscode.workspace.getConfiguration(
-            "markdown-preview-enhanced",
+            "markdown-preview-enhanced-with-litvis",
           );
           const sourceUri = textEditor.document.uri;
           const automaticallyShowPreviewOfMarkdownBeingEdited = config.get<
@@ -617,133 +622,140 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.openPreviewToTheSide",
+      "markdown-preview-enhanced-with-litvis.openPreviewToTheSide",
       openPreviewToTheSide,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.openPreview",
+      "markdown-preview-enhanced-with-litvis.openPreview",
       openPreview,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.toggleScrollSync",
+      "markdown-preview-enhanced-with-litvis.clearCache",
+      clearCache,
+    ),
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "markdown-preview-enhanced-with-litvis.toggleScrollSync",
       toggleScrollSync,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.toggleLiveUpdate",
+      "markdown-preview-enhanced-with-litvis.toggleLiveUpdate",
       toggleLiveUpdate,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.toggleBreakOnSingleNewLine",
+      "markdown-preview-enhanced-with-litvis.toggleBreakOnSingleNewLine",
       toggleBreakOnSingleNewLine,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.openImageHelper",
+      "markdown-preview-enhanced-with-litvis.openImageHelper",
       openImageHelper,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.runAllCodeChunks",
+      "markdown-preview-enhanced-with-litvis.runAllCodeChunks",
       runAllCodeChunksCommand,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.runCodeChunk",
+      "markdown-preview-enhanced-with-litvis.runCodeChunk",
       runCodeChunkCommand,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.syncPreview",
+      "markdown-preview-enhanced-with-litvis.syncPreview",
       syncPreview,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.customizeCss",
+      "markdown-preview-enhanced-with-litvis.customizeCss",
       customizeCSS,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.openMermaidConfig",
+      "markdown-preview-enhanced-with-litvis.openMermaidConfig",
       openMermaidConfig,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.openMathJaxConfig",
+      "markdown-preview-enhanced-with-litvis.openMathJaxConfig",
       openMathJaxConfig,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.openKaTeXConfig",
+      "markdown-preview-enhanced-with-litvis.openKaTeXConfig",
       openKaTeXConfig,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.extendParser",
+      "markdown-preview-enhanced-with-litvis.extendParser",
       extendParser,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.showUploadedImages",
+      "markdown-preview-enhanced-with-litvis.showUploadedImages",
       showUploadedImages,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.insertNewSlide",
+      "markdown-preview-enhanced-with-litvis.insertNewSlide",
       insertNewSlide,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.insertTable",
+      "markdown-preview-enhanced-with-litvis.insertTable",
       insertTable,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.insertPagebreak",
+      "markdown-preview-enhanced-with-litvis.insertPagebreak",
       insertPagebreak,
     ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "markdown-preview-enhanced.createTOC",
+      "markdown-preview-enhanced-with-litvis.createTOC",
       createTOC,
     ),
   );
