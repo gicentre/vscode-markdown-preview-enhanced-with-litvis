@@ -1,5 +1,5 @@
-import { utility } from "@shd101wyy/mume";
 import * as fs from "fs";
+import { utility } from "mume-with-litvis";
 import * as path from "path";
 import * as vscode from "vscode";
 
@@ -17,7 +17,7 @@ export function pasteImageFile(sourceUri: any, imageFilePath: string) {
   }
 
   const imageFolderPath = vscode.workspace
-    .getConfiguration("markdown-preview-enhanced")
+    .getConfiguration("markdown-preview-enhanced-with-litvis")
     .get<string>("imageFolderPath");
   let imageFileName = path.basename(imageFilePath);
   const projectDirectoryPath = vscode.workspace.rootPath;
@@ -196,7 +196,7 @@ export function uploadImageFile(
       });
 
       const config = vscode.workspace.getConfiguration(
-        "markdown-preview-enhanced",
+        "markdown-preview-enhanced-with-litvis",
       );
       const AccessKey = config.get<string>("AccessKey") || "";
       const SecretKey = config.get<string>("SecretKey") || "";

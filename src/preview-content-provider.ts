@@ -1,12 +1,13 @@
-import * as mume from "@shd101wyy/mume";
-import { MarkdownEngine } from "@shd101wyy/mume";
-import { useExternalAddFileProtocolFunction } from "@shd101wyy/mume/out/src/utility";
 import * as fs from "fs";
+import * as mume from "mume-with-litvis";
+import { MarkdownEngine } from "mume-with-litvis";
+import { useExternalAddFileProtocolFunction } from "mume-with-litvis/out/src/utility";
 import { tmpdir } from "os";
 import * as path from "path";
 import * as vscode from "vscode";
 import { TextEditor, Uri } from "vscode";
 import { MarkdownPreviewEnhancedConfig } from "./config";
+import { updateLintingReport } from "./linting";
 
 // http://www.typescriptlang.org/play/
 // https://github.com/Microsoft/vscode/blob/master/extensions/markdown/media/main.js
@@ -48,10 +49,11 @@ export class MarkdownPreviewEnhancedView {
     this.config = MarkdownPreviewEnhancedConfig.getCurrentConfig();
 
     mume
-      .init(this.config.configPath) // init markdown-preview-enhanced
+      .init(this.config.configPath) // init markdown-preview-enhanced-with-litvis
       .then(() => {
         mume.onDidChangeConfigFile(this.refreshAllPreviews.bind(this));
         MarkdownEngine.onModifySource(this.modifySource.bind(this));
+        mume.MarkdownEngine.onUpdateLintingReport(updateLintingReport);
         useExternalAddFileProtocolFunction(
           (filePath: string, preview: vscode.WebviewPanel) => {
             if (preview) {
@@ -392,7 +394,7 @@ export class MarkdownPreviewEnhancedView {
       ];
 
       previewPanel = vscode.window.createWebviewPanel(
-        "markdown-preview-enhanced",
+        "markdown-preview-enhanced-with-litvis",
         `Preview ${path.basename(sourceUri.fsPath)}`,
         viewOptions,
         {
@@ -789,7 +791,7 @@ export class MarkdownPreviewEnhancedView {
   }
 
   public openImageHelper(sourceUri: Uri) {
-    if (sourceUri.scheme === "markdown-preview-enhanced") {
+    if (sourceUri.scheme === "markdown-preview-enhanced-with-litvis") {
       return vscode.window.showWarningMessage("Please focus a markdown file.");
     } else if (!this.isPreviewOn(sourceUri)) {
       return vscode.window.showWarningMessage("Please open preview first.");
@@ -805,24 +807,26 @@ export class MarkdownPreviewEnhancedView {
  * check whehter to use only one preview or not
  */
 export function useSinglePreview() {
-  const config = vscode.workspace.getConfiguration("markdown-preview-enhanced");
+  const config = vscode.workspace.getConfiguration(
+    "markdown-preview-enhanced-with-litvis",
+  );
   return config.get<boolean>("singlePreview");
 }
 
 export function getPreviewUri(uri: vscode.Uri) {
-  if (uri.scheme === "markdown-preview-enhanced") {
+  if (uri.scheme === "markdown-preview-enhanced-with-litvis") {
     return uri;
   }
 
   let previewUri: Uri;
   if (useSinglePreview()) {
     previewUri = uri.with({
-      scheme: "markdown-preview-enhanced",
+      scheme: "markdown-preview-enhanced-with-litvis",
       path: "single-preview.rendered",
     });
   } else {
     previewUri = uri.with({
-      scheme: "markdown-preview-enhanced",
+      scheme: "markdown-preview-enhanced-with-litvis",
       path: uri.path + ".rendered",
       query: uri.toString(),
     });
@@ -833,6 +837,6 @@ export function getPreviewUri(uri: vscode.Uri) {
 export function isMarkdownFile(document: vscode.TextDocument) {
   return (
     document.languageId === "markdown" &&
-    document.uri.scheme !== "markdown-preview-enhanced"
+    document.uri.scheme !== "markdown-preview-enhanced-with-litvis"
   ); // prevent processing of own documents
 }
