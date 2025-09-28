@@ -1,11 +1,11 @@
-import { MarkdownEngineConfig } from "@shd101wyy/mume";
+import { MarkdownEngineConfig } from "mume-with-litvis";
 import {
   CodeBlockTheme,
   MathRenderingOption,
   MermaidTheme,
   PreviewTheme,
   RevealJsTheme,
-} from "@shd101wyy/mume/out/src/markdown-engine-config";
+} from "mume-with-litvis/out/src/markdown-engine-config";
 import * as vscode from "vscode";
 import { PathResolver } from "./utils/path-resolver";
 
@@ -65,7 +65,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
 
   private constructor() {
     const config = vscode.workspace.getConfiguration(
-      "markdown-preview-enhanced",
+      "markdown-preview-enhanced-with-litvis",
     );
 
     this.configPath = (config.get<string>("configPath") || "").trim();
