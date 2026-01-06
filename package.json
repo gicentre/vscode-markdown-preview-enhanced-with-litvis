@@ -1,7 +1,7 @@
 {
-  "name": "markdown-preview-enhanced",
+  "name": "markdown-preview-enhanced-with-litvis",
   "displayName": "%displayName%",
-  "version": "0.6.8",
+  "version": "0.31.0",
   "description": "%description%",
   "categories": [
     "Other"
@@ -10,16 +10,16 @@
     "markdown"
   ],
   "bugs": {
-    "url": "https://github.com/shd101wyy/vscode-markdown-preview-enhanced/issues"
+    "url": "https://github.com/gicentre/vscode-markdown-preview-enhanced-with-litvis/issues"
   },
-  "repository": "https://github.com/shd101wyy/vscode-markdown-preview-enhanced",
-  "license": "NCSA",
+  "repository": "https://github.com/gicentre/vscode-markdown-preview-enhanced-with-litvis.git",
+  "license": "BSD-3, NCSA",
   "contributors": [
     "shd101wyy",
     "kachkaev",
     "gabyx"
   ],
-  "publisher": "shd101wyy",
+  "publisher": "gicentre",
   "main": "./out/src/extension",
   "scripts": {
     "check": "npm run check:eslint && npm run check:prettier && npm run check:tsc && npm run check:tslint",
@@ -31,16 +31,16 @@
     "fix": "npm run fix:eslint && npm run fix:tslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix \"**/*\"",
     "fix:prettier": "prettier --write \"**/*.*\"",
-    "fix:tslint": "tslint --project .",
-    "test": "npm run compile && node ./node_modules/vscode/bin/test",
+    "fix:tslint": "tslint --fix --project .",
+    "test": "npm run compile",
     "vscode:prepublish": "npm run compile",
     "watch": "tsc -watch -p ./"
   },
   "contributes": {
     "commands": [
       {
-        "command": "markdown-preview-enhanced.openPreviewToTheSide",
-        "title": "%markdown-preview-enhanced.openPreviewToTheSide.title%",
+        "command": "markdown-preview-enhanced-with-litvis.openPreviewToTheSide",
+        "title": "%markdown-preview-enhanced-with-litvis.openPreviewToTheSide.title%",
         "category": "Markdown",
         "icon": {
           "light": "./media/preview-right-light.svg",
@@ -48,8 +48,8 @@
         }
       },
       {
-        "command": "markdown-preview-enhanced.openPreview",
-        "title": "%markdown-preview-enhanced.openPreview.title%",
+        "command": "markdown-preview-enhanced-with-litvis.openPreview",
+        "title": "%markdown-preview-enhanced-with-litvis.openPreview.title%",
         "category": "Markdown",
         "icon": {
           "light": "./media/preview-right-light.svg",
@@ -57,119 +57,123 @@
         }
       },
       {
-        "command": "markdown-preview-enhanced.toggleScrollSync",
-        "title": "%markdown-preview-enhanced.toggleScrollSync.title%"
+        "command": "markdown-preview-enhanced-with-litvis.toggleScrollSync",
+        "title": "%markdown-preview-enhanced-with-litvis.toggleScrollSync.title%"
       },
       {
-        "command": "markdown-preview-enhanced.toggleLiveUpdate",
-        "title": "%markdown-preview-enhanced.toggleLiveUpdate.title%"
+        "command": "markdown-preview-enhanced-with-litvis.toggleLiveUpdate",
+        "title": "%markdown-preview-enhanced-with-litvis.toggleLiveUpdate.title%"
       },
       {
-        "command": "markdown-preview-enhanced.toggleBreakOnSingleNewLine",
-        "title": "%markdown-preview-enhanced.toggleBreakOnSingleNewLine.title%"
+        "command": "markdown-preview-enhanced-with-litvis.toggleBreakOnSingleNewLine",
+        "title": "%markdown-preview-enhanced-with-litvis.toggleBreakOnSingleNewLine.title%"
       },
       {
-        "command": "markdown-preview-enhanced.openImageHelper",
-        "title": "%markdown-preview-enhanced.openImageHelper.title%"
+        "command": "markdown-preview-enhanced-with-litvis.openImageHelper",
+        "title": "%markdown-preview-enhanced-with-litvis.openImageHelper.title%"
       },
       {
-        "command": "markdown-preview-enhanced.runAllCodeChunks",
-        "title": "%markdown-preview-enhanced.runAllCodeChunks.title%"
+        "command": "markdown-preview-enhanced-with-litvis.runAllCodeChunks",
+        "title": "%markdown-preview-enhanced-with-litvis.runAllCodeChunks.title%"
       },
       {
-        "command": "markdown-preview-enhanced.runCodeChunk",
-        "title": "%markdown-preview-enhanced.runCodeChunk.title%"
+        "command": "markdown-preview-enhanced-with-litvis.runCodeChunk",
+        "title": "%markdown-preview-enhanced-with-litvis.runCodeChunk.title%"
       },
       {
-        "command": "markdown-preview-enhanced.syncPreview",
-        "title": "%markdown-preview-enhanced.syncPreview.title%"
+        "command": "markdown-preview-enhanced-with-litvis.syncPreview",
+        "title": "%markdown-preview-enhanced-with-litvis.syncPreview.title%"
       },
       {
-        "command": "markdown-preview-enhanced.customizeCss",
-        "title": "%markdown-preview-enhanced.customizeCss.title%"
+        "command": "markdown-preview-enhanced-with-litvis.customizeCss",
+        "title": "%markdown-preview-enhanced-with-litvis.customizeCss.title%"
       },
       {
-        "command": "markdown-preview-enhanced.insertNewSlide",
-        "title": "%markdown-preview-enhanced.insertNewSlide.title%"
+        "command": "markdown-preview-enhanced-with-litvis.insertNewSlide",
+        "title": "%markdown-preview-enhanced-with-litvis.insertNewSlide.title%"
       },
       {
-        "command": "markdown-preview-enhanced.insertTable",
-        "title": "%markdown-preview-enhanced.insertTable.title%"
+        "command": "markdown-preview-enhanced-with-litvis.insertTable",
+        "title": "%markdown-preview-enhanced-with-litvis.insertTable.title%"
       },
       {
-        "command": "markdown-preview-enhanced.insertPagebreak",
-        "title": "%markdown-preview-enhanced.insertPagebreak.title%"
+        "command": "markdown-preview-enhanced-with-litvis.insertPagebreak",
+        "title": "%markdown-preview-enhanced-with-litvis.insertPagebreak.title%"
       },
       {
-        "command": "markdown-preview-enhanced.createTOC",
-        "title": "%markdown-preview-enhanced.createTOC.title%"
+        "command": "markdown-preview-enhanced-with-litvis.createTOC",
+        "title": "%markdown-preview-enhanced-with-litvis.createTOC.title%"
       },
       {
-        "command": "markdown-preview-enhanced.openMermaidConfig",
-        "title": "%markdown-preview-enhanced.openMermaidConfig.title%"
+        "command": "markdown-preview-enhanced-with-litvis.openMermaidConfig",
+        "title": "%markdown-preview-enhanced-with-litvis.openMermaidConfig.title%"
       },
       {
-        "command": "markdown-preview-enhanced.openMathJaxConfig",
-        "title": "%markdown-preview-enhanced.openMathJaxConfig.title%"
+        "command": "markdown-preview-enhanced-with-litvis.openMathJaxConfig",
+        "title": "%markdown-preview-enhanced-with-litvis.openMathJaxConfig.title%"
       },
       {
-        "command": "markdown-preview-enhanced.openKaTeXConfig",
-        "title": "%markdown-preview-enhanced.openKaTeXConfig.title%"
+        "command": "markdown-preview-enhanced-with-litvis.openKaTeXConfig",
+        "title": "%markdown-preview-enhanced-with-litvis.openKaTeXConfig.title%"
       },
       {
-        "command": "markdown-preview-enhanced.extendParser",
-        "title": "%markdown-preview-enhanced.extendParser.title%"
+        "command": "markdown-preview-enhanced-with-litvis.extendParser",
+        "title": "%markdown-preview-enhanced-with-litvis.extendParser.title%"
       },
       {
-        "command": "markdown-preview-enhanced.showUploadedImages",
-        "title": "%markdown-preview-enhanced.showUploadedImages.title%"
+        "command": "markdown-preview-enhanced-with-litvis.showUploadedImages",
+        "title": "%markdown-preview-enhanced-with-litvis.showUploadedImages.title%"
+      },
+      {
+        "command": "markdown-preview-enhanced-with-litvis.clearCache",
+        "title": "%markdown-preview-enhanced-with-litvis.clearCache.title%"
       }
     ],
     "configuration": {
       "type": "object",
-      "title": "Markdown Preview Enhanced",
+      "title": "Markdown Preview Enhanced with litvis",
       "properties": {
-        "markdown-preview-enhanced.configPath": {
+        "markdown-preview-enhanced-with-litvis.configPath": {
           "description": "The configuration directory path. Leave it empty to use '~/.mume' as the config path. Please reload vscode to take effect.",
           "default": "",
           "type": "string"
         },
-        "markdown-preview-enhanced.usePandocParser": {
+        "markdown-preview-enhanced-with-litvis.usePandocParser": {
           "description": "Enable this option will render markdown by pandoc instead of markdown-it.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.breakOnSingleNewLine": {
+        "markdown-preview-enhanced-with-litvis.breakOnSingleNewLine": {
           "description": "In Markdown, a single newline character doesn't cause a line break in the generated HTML. In GitHub Flavored Markdown, that is not true. Enable this config option to insert line breaks in rendered HTML for single newlines in Markdown source.",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.scrollSync": {
+        "markdown-preview-enhanced-with-litvis.scrollSync": {
           "description": "Automatic scroll sync. This is now partially supported.",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.liveUpdate": {
+        "markdown-preview-enhanced-with-litvis.liveUpdate": {
           "description": "Re-render the preview as the contents of the source changes, without requiring the source buffer to be saved. If disabled, the preview is re-rendered only when the buffer is saved to disk.",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.singlePreview": {
+        "markdown-preview-enhanced-with-litvis.singlePreview": {
           "description": "Open Only One Preview.",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": {
+        "markdown-preview-enhanced-with-litvis.automaticallyShowPreviewOfMarkdownBeingEdited": {
           "description": "Automatically show preview of markdown being edited.",
-          "default": false,
+          "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.enableTypographer": {
+        "markdown-preview-enhanced-with-litvis.enableTypographer": {
           "description": "Enable smartypants and other sweet transforms.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.mathRenderingOption": {
+        "markdown-preview-enhanced-with-litvis.mathRenderingOption": {
           "description": "Choose the Math expression rendering method here. You can also disable math rendering if you want by choosing 'None'.",
           "default": "KaTeX",
           "type": "string",
@@ -179,7 +183,7 @@
             "None"
           ]
         },
-        "markdown-preview-enhanced.mathInlineDelimiters": {
+        "markdown-preview-enhanced-with-litvis.mathInlineDelimiters": {
           "description": "Use customized Math expression inline delimiters.",
           "default": [
             [
@@ -193,7 +197,7 @@
           ],
           "type": "array"
         },
-        "markdown-preview-enhanced.mathBlockDelimiters": {
+        "markdown-preview-enhanced-with-litvis.mathBlockDelimiters": {
           "description": "Use customized Math expression block delimiters.",
           "default": [
             [
@@ -207,7 +211,7 @@
           ],
           "type": "array"
         },
-        "markdown-preview-enhanced.mathRenderingOnlineService": {
+        "markdown-preview-enhanced-with-litvis.mathRenderingOnlineService": {
           "description": "Choose the Math expression rendering method option for GFM markdown export (Save as Markdown).",
           "default": "https://latex.codecogs.com/gif.latex",
           "type": "string",
@@ -217,42 +221,42 @@
             "https://latex.codecogs.com/png.latex"
           ]
         },
-        "markdown-preview-enhanced.enableWikiLinkSyntax": {
+        "markdown-preview-enhanced-with-litvis.enableWikiLinkSyntax": {
           "description": "Enable Wiki Link syntax support. More information can be found at https://help.github.com/articles/adding-links-to-wikis/",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.enableLinkify": {
+        "markdown-preview-enhanced-with-litvis.enableLinkify": {
           "description": "Enable or disable conversion of URL-like text to links in the markdown preview.",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.useGitHubStylePipedLink": {
+        "markdown-preview-enhanced-with-litvis.useGitHubStylePipedLink": {
           "description": "If checked, we use GitHub style piped wiki links, i.e. [[linkText|wikiLink]]. Otherwise, we use [[wikiLink|linkText]] as the original Wikipedia style.",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.wikiLinkFileExtension": {
+        "markdown-preview-enhanced-with-litvis.wikiLinkFileExtension": {
           "description": "By default, the extension for wikilink is `.md`. For example: [[test]] will direct to file path `test.md`.",
           "default": ".md",
           "type": "string"
         },
-        "markdown-preview-enhanced.enableEmojiSyntax": {
+        "markdown-preview-enhanced-with-litvis.enableEmojiSyntax": {
           "description": "Enable emoji & font-awesome plugin. This only works for markdown-it parser, but not pandoc parser.",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.enableExtendedTableSyntax": {
+        "markdown-preview-enhanced-with-litvis.enableExtendedTableSyntax": {
           "description": "Enable extended table syntax to support merging table cells.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.enableCriticMarkupSyntax": {
+        "markdown-preview-enhanced-with-litvis.enableCriticMarkupSyntax": {
           "description": "Enable CriticMarkup syntax. Only works with markdown-it parser. Please check http://criticmarkup.com/users-guide.php for more information.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.frontMatterRenderingOption": {
+        "markdown-preview-enhanced-with-litvis.frontMatterRenderingOption": {
           "description": "Front matter rendering option",
           "type": "string",
           "enum": [
@@ -262,7 +266,7 @@
           ],
           "default": "none"
         },
-        "markdown-preview-enhanced.mermaidTheme": {
+        "markdown-preview-enhanced-with-litvis.mermaidTheme": {
           "description": "Mermaid theme, you can choose one from [\"mermaid.css\", \"mermaid.dark.css\", \"mermaid.forest.css\"]",
           "default": "default",
           "type": "string",
@@ -272,7 +276,7 @@
             "forest"
           ]
         },
-        "markdown-preview-enhanced.codeBlockTheme": {
+        "markdown-preview-enhanced-with-litvis.codeBlockTheme": {
           "description": "Code block theme. If `auto.css` is chosen, then the code block theme that best matches the current preview theme will be picked.",
           "default": "auto.css",
           "type": "string",
@@ -302,7 +306,7 @@
             "xonokai.css"
           ]
         },
-        "markdown-preview-enhanced.previewTheme": {
+        "markdown-preview-enhanced-with-litvis.previewTheme": {
           "description": "Preview Theme",
           "default": "github-light.css",
           "type": "string",
@@ -325,7 +329,7 @@
             "vue.css"
           ]
         },
-        "markdown-preview-enhanced.revealjsTheme": {
+        "markdown-preview-enhanced-with-litvis.revealjsTheme": {
           "description": "RevealJS Presentation Theme",
           "default": "white.css",
           "type": "string",
@@ -344,17 +348,17 @@
             "none.css"
           ]
         },
-        "markdown-preview-enhanced.protocolsWhiteList": {
+        "markdown-preview-enhanced-with-litvis.protocolsWhiteList": {
           "description": "Accepted protocols for links.",
           "default": "http://, https://, atom://, file://, mailto:, tel:",
           "type": "string"
         },
-        "markdown-preview-enhanced.imageFolderPath": {
+        "markdown-preview-enhanced-with-litvis.imageFolderPath": {
           "description": "When using Image Helper to copy images, by default images will be copied to root image folder path '/assets'",
           "default": "/assets",
           "type": "string"
         },
-        "markdown-preview-enhanced.imageUploader": {
+        "markdown-preview-enhanced-with-litvis.imageUploader": {
           "description": "You can choose different image uploader to upload image",
           "default": "imgur",
           "type": "string",
@@ -364,120 +368,120 @@
             "qiniu"
           ]
         },
-        "markdown-preview-enhanced.AccessKey": {
+        "markdown-preview-enhanced-with-litvis.AccessKey": {
           "type": "string",
           "default": "",
           "description": "Qiniu AccessKey"
         },
-        "markdown-preview-enhanced.SecretKey": {
+        "markdown-preview-enhanced-with-litvis.SecretKey": {
           "type": "string",
           "default": "",
           "description": "Qiniu SecretKey"
         },
-        "markdown-preview-enhanced.Bucket": {
+        "markdown-preview-enhanced-with-litvis.Bucket": {
           "type": "string",
           "default": "",
           "description": "Qiniu Bucket"
         },
-        "markdown-preview-enhanced.Domain": {
+        "markdown-preview-enhanced-with-litvis.Domain": {
           "type": "string",
           "default": "http://",
           "description": "Qiniu Domain"
         },
-        "markdown-preview-enhanced.printBackground": {
+        "markdown-preview-enhanced-with-litvis.printBackground": {
           "description": "Whether to print background for file export or not. If set to `false`, then `github-light` preview theme will be used. You can also set `print_background` in front-matter for individual files.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.chromePath": {
+        "markdown-preview-enhanced-with-litvis.chromePath": {
           "description": "Chrome executable path, which is used for Puppeteer export. Leaving it empty means the path will be found automatically.",
           "default": "",
           "type": "string",
           "scope": "machine"
         },
-        "markdown-preview-enhanced.imageMagickPath": {
+        "markdown-preview-enhanced-with-litvis.imageMagickPath": {
           "description": "ImageMagick command line path. Should be either `magick` or `convert`. Leaving it empty means the path will be found automatically.",
           "default": "",
           "type": "string",
           "scope": "machine"
         },
-        "markdown-preview-enhanced.pandocPath": {
+        "markdown-preview-enhanced-with-litvis.pandocPath": {
           "description": "Pandoc executable path",
           "default": "pandoc",
           "type": "string",
           "scope": "machine"
         },
-        "markdown-preview-enhanced.pandocMarkdownFlavor": {
+        "markdown-preview-enhanced-with-litvis.pandocMarkdownFlavor": {
           "description": "The pandoc markdown flavor you want",
           "default": "markdown-raw_tex+tex_math_single_backslash",
           "type": "string"
         },
-        "markdown-preview-enhanced.pandocArguments": {
+        "markdown-preview-enhanced-with-litvis.pandocArguments": {
           "description": "Args passed to pandoc command e.g. [\"--smart\", \"--filter=/bin/exe\"] Please use long argument names.",
           "default": [],
           "type": "array"
         },
-        "markdown-preview-enhanced.latexEngine": {
+        "markdown-preview-enhanced-with-litvis.latexEngine": {
           "description": "Default latex engine for Pandoc export and latex code chunk.",
           "default": "pdflatex",
           "type": "string"
         },
-        "markdown-preview-enhanced.enableScriptExecution": {
+        "markdown-preview-enhanced-with-litvis.enableScriptExecution": {
           "description": "Enables executing code chunks and importing javascript files.\n⚠️ Please use this feature with caution because it may put your security at risk! Your machine can get hacked if someone makes you open a markdown with malicious code while script execution is enabled.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.enableHTML5Embed": {
+        "markdown-preview-enhanced-with-litvis.enableHTML5Embed": {
           "description": " Enables transform audio video link to to html5 embed audio video tags.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.HTML5EmbedUseImageSyntax": {
+        "markdown-preview-enhanced-with-litvis.HTML5EmbedUseImageSyntax": {
           "description": " Enables video/audio embed with ![]() syntax (default).",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.HTML5EmbedUseLinkSyntax": {
+        "markdown-preview-enhanced-with-litvis.HTML5EmbedUseLinkSyntax": {
           "description": "Enables video/audio embed with []() syntax.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.HTML5EmbedIsAllowedHttp": {
+        "markdown-preview-enhanced-with-litvis.HTML5EmbedIsAllowedHttp": {
           "description": "When true embed media with http:// schema in URLs. When false ignore and don't embed them.",
           "default": false,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.HTML5EmbedAudioAttributes": {
+        "markdown-preview-enhanced-with-litvis.HTML5EmbedAudioAttributes": {
           "description": "HTML attributes to pass to audio tags.",
           "default": "controls preload=\"metadata\" width=\"320\"",
           "type": "string"
         },
-        "markdown-preview-enhanced.HTML5EmbedVideoAttributes": {
+        "markdown-preview-enhanced-with-litvis.HTML5EmbedVideoAttributes": {
           "description": "HTML attributes to pass to video tags.",
           "default": "controls preload=\"metadata\" width=\"320\" height=\"240\"",
           "type": "string"
         },
-        "markdown-preview-enhanced.puppeteerWaitForTimeout": {
+        "markdown-preview-enhanced-with-litvis.puppeteerWaitForTimeout": {
           "description": "Puppeteer waits for a certain timeout in milliseconds before the document export.",
           "default": 0,
           "type": "number"
         },
-        "markdown-preview-enhanced.usePuppeteerCore": {
+        "markdown-preview-enhanced-with-litvis.usePuppeteerCore": {
           "description": "If set to true, then locally installed puppeteer-core will be required. Otherwise, the puppeteer globally installed by `npm install -g puppeteer` will be required.",
           "default": true,
           "type": "boolean"
         },
-        "markdown-preview-enhanced.puppeteerArgs": {
+        "markdown-preview-enhanced-with-litvis.puppeteerArgs": {
           "description": "Args passed to puppeteer.launch({args: $puppeteerArgs})",
           "default": [],
           "type": "array"
         },
-        "markdown-preview-enhanced.plantumlServer": {
+        "markdown-preview-enhanced-with-litvis.plantumlServer": {
           "description": "Render using PlantUML server instead of binary. Leave it empty to use the builtin plantuml.jar binary (`java` is required in system path). Eg: \"http://localhost:8080/svg/\"",
           "default": "",
           "type": "string"
         },
-        "markdown-preview-enhanced.hideDefaultVSCodeMarkdownPreviewButtons": {
+        "markdown-preview-enhanced-with-litvis.hideDefaultVSCodeMarkdownPreviewButtons": {
           "description": "Hide the default VSCode markdown preview extension buttons. Restarting the editor is required to make this config take effect.",
           "default": true,
           "type": "boolean"
@@ -486,29 +490,29 @@
     },
     "keybindings": [
       {
-        "command": "markdown-preview-enhanced.openPreviewToTheSide",
+        "command": "markdown-preview-enhanced-with-litvis.openPreviewToTheSide",
         "key": "ctrl+k v",
         "mac": "cmd+k v",
         "when": "editorLangId == markdown"
       },
       {
-        "command": "markdown-preview-enhanced.openPreview",
+        "command": "markdown-preview-enhanced-with-litvis.openPreview",
         "key": "ctrl+shift+v",
         "mac": "cmd+shift+v",
         "when": "editorLangId == markdown"
       },
       {
-        "command": "markdown-preview-enhanced.runAllCodeChunks",
+        "command": "markdown-preview-enhanced-with-litvis.runAllCodeChunks",
         "key": "ctrl+shift+enter",
         "when": "editorLangId == markdown"
       },
       {
-        "command": "markdown-preview-enhanced.runCodeChunk",
+        "command": "markdown-preview-enhanced-with-litvis.runCodeChunk",
         "key": "shift+enter",
         "when": "editorLangId == markdown"
       },
       {
-        "command": "markdown-preview-enhanced.syncPreview",
+        "command": "markdown-preview-enhanced-with-litvis.syncPreview",
         "key": "ctrl+shift+s",
         "when": "editorLangId == markdown"
       }
@@ -516,14 +520,14 @@
     "menus": {
       "editor/context": [
         {
-          "command": "markdown-preview-enhanced.openPreviewToTheSide",
+          "command": "markdown-preview-enhanced-with-litvis.openPreviewToTheSide",
           "when": "editorLangId == markdown",
-          "group": "markdown-preview-enhanced"
+          "group": "markdown-preview-enhanced-with-litvis"
         }
       ],
       "editor/title": [
         {
-          "command": "markdown-preview-enhanced.openPreviewToTheSide",
+          "command": "markdown-preview-enhanced-with-litvis.openPreviewToTheSide",
           "when": "editorLangId == markdown",
           "group": "navigation"
         }
@@ -532,7 +536,8 @@
   },
   "activationEvents": [
     "onLanguage:markdown",
-    "onCommand:markdown-preview-enhanced.openPreviewToTheSide"
+    "onCommand:markdown-preview-enhanced-with-litvis.openPreviewToTheSide",
+    "onCommand:markdown-preview-enhanced-with-litvis.clearCache"
   ],
   "husky": {
     "hooks": {
@@ -547,19 +552,18 @@
     ]
   },
   "dependencies": {
-    "@shd101wyy/mume": "0.7.6",
-    "@types/vfile": "^3.0.2"
+    "mume-with-litvis": "^0.34.0",
+    "vfile-sort": "^2.2.0"
   },
   "devDependencies": {
-    "@types/cheerio": "^0.22.18",
+    "@types/cheerio": "0.22.21",
     "@types/jquery": "^3.3.9",
-    "@types/mocha": "^5.2.5",
     "@types/node": "^11.11.0",
+    "@types/vfile": "^3.0.2",
     "@types/vscode": "1.70.0",
-    "eslint": "^5.15.1",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
-    "mocha": "^6.1.4",
+    "eslint": "^8.49.0",
+    "husky": "^4.3.7",
+    "lint-staged": "^10.5.3",
     "prettier": "^1.18.2",
     "prettier-plugin-packagejson": "^2.0.1",
     "tslint": "^5.13.1",
